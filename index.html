@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deep Questions for Couples</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fff0db;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 600px;
+            padding: 25px;
+            text-align: center;
+            box-sizing: border-box;
+            position: relative;
+        }
+        .heart-icon {
+            color: #e57373;
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+        .question-card {
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            background: #f9f5f0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .button {
+            background-color: #e57373;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .button:hover {
+            background-color: #c62828;
+        }
+        .button:active {
+            transform: scale(0.98);
+        }
+        .name-form input {
+            font-size: 1.2em;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            margin: 10px 0;
+            width: calc(100% - 22px);
+        }
+        .name-form button {
+            background-color: #e57373;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .name-form button:hover {
+            background-color: #c62828;
+        }
+        .name-form button:active {
+            transform: scale(0.98);
+        }
+        @media (max-width: 600px) {
+            .button, .name-form button {
+                font-size: 1em;
+                padding: 10px 20px;
+            }
+            .question-card {
+                font-size: 1em;
+                padding: 15px;
+            }
+            .heart-icon {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="name-form" class="name-form">
+            <h2>Enter Your Names</h2>
+            <input type="text" id="player1" placeholder="Player 1 Name" required>
+            <input type="text" id="player2" placeholder="Player 2 Name" required>
+            <button id="start-button">Start Game</button>
+        </div>
+        <i class="fas fa-heart heart-icon"></i>
+        <div class="question-card" id="question-card">
+            <!-- Question will be inserted here -->
+        </div>
+        <div class="button-container">
+            <button class="button" id="next-button">Next Question</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            "What is something you’ve always wanted to do but haven’t yet, [name]?",
+            "What do you value most in our relationship, [name]?",
+            "What are your biggest fears about the future, [name]?",
+            "How do you envision our life together in 10 years, [name]?",
+            "What’s one thing you’d like to improve about yourself, [name]?",
+            "What’s a dream you’ve never shared with anyone, [name]?",
+            "How do you handle stress and what can I do to support you during those times, [name]?",
+            "What’s one thing you wish we did more often together, [name]?",
+            "What’s a lesson you learned from a past relationship, [name]?",
+            "How do you define success and happiness in our life together, [name]?"
+        ];
+
+        let currentQuestionIndex = 0;
+        let player1Name = "";
+        let player2Name = "";
+
+        document.getElementById('start-button').addEventListener('click', () => {
+            player1Name = document.getElementById('player1').value.trim();
+            player2Name = document.getElementById('player2').value.trim();
+            
+            if (player1Name && player2Name) {
+                document.getElementById('name-form').style.display = 'none';
+                document.querySelector('.question-card').style.display = 'block';
+                document.getElementById('next-button').style.display = 'block';
+                showQuestion();
+            } else {
+                alert('Please enter names for both players.');
+            }
+        });
+
+        function showQuestion() {
+            const questionCard = document.getElementById('question-card');
+            const currentPlayerName = currentQuestionIndex % 2 === 0 ? player1Name : player2Name;
+            let personalizedQuestion = questions[currentQuestionIndex];
+            personalizedQuestion = personalizedQuestion.replace('[name]', currentPlayerName);
+            questionCard.textContent = personalizedQuestion;
+        }
+
+        document.getElementById('next-button').addEventListener('click', () => {
+            currentQuestionIndex = (currentQuestionIndex + 1) % questions.length;
+            showQuestion();
+        });
+
+        // Initial display
+        document.querySelector('.question-card').style.display = 'none';
+        document.getElementById('next-button').style.display = 'none';
+    </script>
+</body>
+</html>
